@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# 虚拟环境
+venv/
+env/
+.env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# MuJoCo 日志
+MJDATA.TXT
+MJMODEL.TXT
+MUJOCO_LOG.TXT
+mjmodel.xml
+
+# 临时文件
+*.tmp
+*.log

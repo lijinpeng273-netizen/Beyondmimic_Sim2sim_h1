@@ -1,0 +1,4 @@
+mujoco>=3.0
+onnx>=1.14
+onnxruntime>=1.16
+numpy>=1.24
