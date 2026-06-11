@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """统一的 Sim-to-Sim 仿真验证脚本，支持多种机器人配置。
 
 本脚本的核心功能是：将强化学习训练得到的 ONNX 策略模型部署到 MuJoCo 物理仿真器中，
