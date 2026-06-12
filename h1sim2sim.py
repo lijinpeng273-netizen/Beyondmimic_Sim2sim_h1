@@ -5,12 +5,12 @@
 
 使用示例:
     # 基本用法:
-    python h1sim2sim.py --motion_file motions/merged_walk1.npz \
+    python h1sim2sim.py --motion_file motions/h1_walk1.npz \
         --xml_path assets/unitree_g1_mjcf/h1sum.xml \
         --policy_path models/2026-06-09_13-07-05_h1_walk.onnx
 
     # 循环播放 + 自定义控制分频:
-    python h1sim2sim.py --motion_file motions/merged_walk1.npz \
+    python h1sim2sim.py --motion_file motions/h1_walk1.npz \
         --xml_path assets/unitree_g1_mjcf/h1sum.xml \
         --policy_path models/2026-06-09_13-07-05_h1_walk.onnx --loop --decimation 4
 """
@@ -149,6 +149,7 @@ def pd_control(target_q, q, kp, target_dq, dq, kd):
 
 # ============================================================================
 # ONNX 元数据解析
+#通过遍历的方式解析 ONNX 模型中的元数据属性，提取关节名称、默认位置、PD 增益、动作缩放等信息。
 # ============================================================================
 
 def parse_str_list(val):
@@ -174,6 +175,7 @@ def parse_csv_list(val, dtype=float):
 
 # ============================================================================
 # 观测向量构造函数（H1 与 G1 布局一致）
+#把来自不同数据源的 8 个输入组装成策略网络期望的 110 维观测向量
 # ============================================================================
 
 def create_observation(obs, motioninput, v, omega, qpos_seq, qvel_seq, action_buffer,
@@ -216,6 +218,7 @@ def create_observation(obs, motioninput, v, omega, qpos_seq, qvel_seq, action_bu
 
 # ============================================================================
 # 运动锚点索引解析
+# 找出骨盆（pelvis）在运动数据和 MuJoCo 模型中的（body_pos_w）对应索引
 # ============================================================================
 
 def resolve_motion_anchor_index(
@@ -515,11 +518,11 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 示例:
-  python h1sim2sim.py --motion_file motions/merged_walk1.npz \\
+  python h1sim2sim.py --motion_file motions/h1_walk1.npz \\
       --xml_path assets/unitree_g1_mjcf/h1sum.xml \\
       --policy_path models/2026-06-09_13-07-05_h1_walk.onnx
 
-  python h1sim2sim.py --motion_file motions/merged_walk1.npz \\
+  python h1sim2sim.py --motion_file motions/h1_walk1.npz \\
       --xml_path assets/unitree_g1_mjcf/h1sum.xml \\
       --policy_path models/2026-06-09_13-07-05_h1_walk.onnx --loop --decimation 4
         """,
